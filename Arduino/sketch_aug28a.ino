@@ -1,10 +1,7 @@
-const int ledPin = 9;
 String msg,cmd;
 
 void setup() {
   // Initialization
-  pinMode(ledPin, OUTPUT);
-  digitalWrite(ledPin, LOW);
   Serial.begin(9600); // Communication rate of the Bluetooth Module
   msg = "";
 }
@@ -14,19 +11,25 @@ void loop() {
   // To read message received from other Bluetooth Device
   if (Serial.available() > 0){ // Check if there is data coming
     msg = Serial.readString(); // Read the message as String
-    Serial.println("Android Command: " + msg);
-  }
 
-  // Control LED in Arduino board
-  if (msg == "<turn on>"){
-    digitalWrite(ledPin, HIGH); // Turn on LED
-    Serial.println("LED is turned on\n"); // Then send status message to Android
-    msg = ""; // reset command
-  } else {
-    if (msg == "<turn off>"){
-      digitalWrite(ledPin, LOW); // Turn off LED
-      Serial.println("LED is turned off\n"); // Then send status message to Android
+
+    if (msg == "<request>"){
+      String str = "";
+      //generate 3 random numbers seperated with commas
+      for(int i=0;i<2;i++){
+        str += randNumber(20);
+        str += ",";
+      }
+      str += randNumber(20);
+      str += "\n";
+      Serial.println(str); // Then send message to Android
       msg = ""; // reset command
+      delay(1000);
     }
   }
 }
+
+float randNumber(int limit){
+  return random(1,limit*100.0)/100.0;
+}
+
