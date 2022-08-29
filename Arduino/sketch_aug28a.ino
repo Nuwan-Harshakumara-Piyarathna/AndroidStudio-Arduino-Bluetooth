@@ -8,7 +8,7 @@ void setup() {
 
 void loop() {
   
-  // To read message received from other Bluetooth Device
+  // To read message received from Android App
   if (Serial.available() > 0){ // Check if there is data coming
     msg = Serial.readString(); // Read the message as String
 
